@@ -4,7 +4,7 @@ export default class {
   constructor(webGl) {
     this.webGl = webGl;
 
-    const geometry = new THREE.InstancedBufferGeometry();
+    const geometry = new THREE.BufferGeometry();
 
     const size = 50.0;
     const positions = new Float32Array([
@@ -57,11 +57,6 @@ export default class {
       1, 7, 3,
     ]);
     geometry.setIndex(new THREE.BufferAttribute(indices, 1));
-
-    const offsets = new Float32Array([
-      1.0, 1.0, 1.0
-    ]);
-    geometry.addAttribute('offset', new THREE.InstancedBufferAttribute(offsets, 3, false));
 
     const material = new THREE.ShaderMaterial({
       uniforms: {},

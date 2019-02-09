@@ -9,7 +9,8 @@ import 'three-examples/postprocessing/RenderPass';
 import 'three-examples/postprocessing/ShaderPass';
 
 import InteractiveControls from './controls/InteractiveControls';
-import BufferGeometryExample from './buffer-geometry/';
+import BufferGeometrySimple from './buffer-geometry-simple/';
+import BufferGeometryIndices from './buffer-geometry-indices/';
 import Box from './box/';
 import Particles from './particles/';
 import BoxTextured from './box-textured/';
@@ -21,7 +22,8 @@ export default class WebGLView {
 		this.app = app;
 
 		this.initThree();
-		new BufferGeometryExample(this);
+		new BufferGeometrySimple(this);
+    // new BufferGeometryIndices(this);
     // new Box(this);
     // new BoxTextured(this);
     // new Cubemap(this);
