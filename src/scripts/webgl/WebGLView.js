@@ -16,6 +16,7 @@ import Box from './box/';
 import Particles from './particles/';
 import BoxTextured from './box-textured/';
 import Cubemap from './cubemap/';
+import CubemapDayNight from './cubemap-daynight/';
 
 export default class WebGLView {
 
@@ -27,7 +28,8 @@ export default class WebGLView {
     // new BufferGeometryIndices(this);
     // new Box(this);
     new BoxTextured(this);
-    new Cubemap(this);
+    // new Cubemap(this);
+    this.cubemapDayNight = new CubemapDayNight(this);
 		// new Particles(this);
 		this.initControls();
 		this.initPostProcessing();
@@ -66,8 +68,10 @@ export default class WebGLView {
 	// ---------------------------------------------------------------------------------------------
 
 	update() {
-		const delta = this.clock.getDelta();
-		
+    const delta = this.clock.getDelta();
+
+    if (this.cubemapDayNight) this.cubemapDayNight.update(delta);
+
 		if (this.controls) this.controls.update();
 	}
 
