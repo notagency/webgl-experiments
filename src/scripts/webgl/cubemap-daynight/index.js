@@ -28,8 +28,19 @@ export default class {
 
   loadTexture(textureName) {
     const cubeTexture = (new THREE.CubeTexture());
+    const loadedImages = [];
     const onLoad = (texture, index) => {
-      cubeTexture.images[index] = texture.image;
+      loadedImages.push({index, image: texture.image});
+      if (loadedImages.length === 6) {
+        updateTexture();
+      }
+    };
+    const updateTexture = () => {
+      const loadedImagesSorted = [];
+      loadedImages.forEach((loadedImage) => {
+        loadedImagesSorted[loadedImage.index] = loadedImage.image;
+      });
+      cubeTexture.images = loadedImagesSorted;
       cubeTexture.needsUpdate = true;
     };
     this.loader = new THREE.TGALoader();

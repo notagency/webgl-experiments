@@ -28,16 +28,29 @@ export default class {
 
   loadTexture(textureName) {
     const cubeTexture = (new THREE.CubeTexture());
+    const loadedImages = [];
     const onLoad = (texture, index) => {
-      cubeTexture.images[index] = texture.image;
+      loadedImages.push({index, image: texture.image});
+      if (loadedImages.length === 6) {
+        updateTexture();
+      }
+    };
+    const updateTexture = () => {
+      const loadedImagesSorted = [];
+      loadedImages.forEach((loadedImage) => {
+        loadedImagesSorted[loadedImage.index] = loadedImage.image;
+      });
+      cubeTexture.images = loadedImagesSorted;
       cubeTexture.needsUpdate = true;
     };
-    this.loader.load( `${textureName}/${textureName}_rt.tga`, (texture) => onLoad(texture, 4) ); // px = positiveX = right side
-    this.loader.load( `${textureName}/${textureName}_lf.tga`, (texture) => onLoad(texture, 5) ); // nx = negativeX = left side
+    this.loader = new THREE.TGALoader();
+    this.loader.setPath('textures/cubemap/');
+    this.loader.load( `${textureName}/${textureName}_ft.tga`, (texture) => onLoad(texture, 0) ); // nz = negativeZ = front side
+    this.loader.load( `${textureName}/${textureName}_bk.tga`, (texture) => onLoad(texture, 1) ); // pz = positiveZ = back side
     this.loader.load( `${textureName}/${textureName}_up.tga`, (texture) => onLoad(texture, 2) ); // py = positiveY = top side
     this.loader.load( `${textureName}/${textureName}_dn.tga`, (texture) => onLoad(texture, 3) ); // ny = negativeY = bottom side
-    this.loader.load( `${textureName}/${textureName}_bk.tga`, (texture) => onLoad(texture, 1) ); // pz = positiveZ = back side
-    this.loader.load( `${textureName}/${textureName}_ft.tga`, (texture) => onLoad(texture, 0) ); // nz = negativeZ = front side
+    this.loader.load( `${textureName}/${textureName}_rt.tga`, (texture) => onLoad(texture, 4) ); // px = positiveX = right side
+    this.loader.load( `${textureName}/${textureName}_lf.tga`, (texture) => onLoad(texture, 5) ); // nx = negativeX = left side
     return cubeTexture;
   }
 
