@@ -24,13 +24,8 @@ export default class WebGLView {
 		this.app = app;
 
 		this.initThree();
-		// new BufferGeometrySimple(this);
-    // new BufferGeometryIndices(this);
-    // new Box(this);
-    new BoxTextured(this);
-    // new Cubemap(this);
-    this.cubemapDayNight = new CubemapDayNight(this);
-		// new Particles(this);
+    this.initObjects();
+    this.initPresets();
 		this.initControls();
 		this.initPostProcessing();
 	}
@@ -45,6 +40,25 @@ export default class WebGLView {
 
 		this.clock = new THREE.Clock();
 	}
+
+  initObjects() {
+    this.box = new Box(this);
+    this.boxTextured = new BoxTextured(this);
+    this.bufferGeometrySimple = new BufferGeometrySimple(this);
+    this.bufferGeometryIndices = new BufferGeometryIndices(this);
+    this.cubemap = new Cubemap(this);
+    this.cubemapDayNight = new CubemapDayNight(this);
+    this.particles = new Particles(this);
+  }
+
+  initPresets() {
+    this.presets = [
+      'Day & night',
+      'Billion particles'
+    ];
+    this.currentPresetIndex = 0;
+    this.updatePreset()
+  }
 
 	initControls() {
     this.controls = new OrbitControls(this.camera);
@@ -103,4 +117,25 @@ export default class WebGLView {
 	onInteractiveDown(e) {
 		this.object3D.material.wireframe = !e.object;
 	}
+
+  updatePreset() {
+    this.box.disable();
+    this.boxTextured.disable();
+    this.bufferGeometrySimple.disable();
+    this.bufferGeometryIndices.disable();
+    this.cubemap.disable();
+    this.cubemapDayNight.disable();
+    this.particles.disable();
+
+    switch (this.currentPresetIndex) {
+      case 0: // day & night
+        this.boxTextured.enable();
+        this.cubemapDayNight.enable();
+        break;
+      case 1: // particles
+        this.particles.enable();
+        break;
+
+    }
+  }
 }

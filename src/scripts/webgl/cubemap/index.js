@@ -23,8 +23,7 @@ export default class {
       side: THREE.BackSide
     });
 
-    this.object3D = new THREE.Mesh(geometry, material);
-    this.webGl.scene.add(this.object3D);
+    this.mesh = new THREE.Mesh(geometry, material);
   }
 
   loadTexture(textureName) {
@@ -40,5 +39,15 @@ export default class {
     this.loader.load( `${textureName}/${textureName}_bk.tga`, (texture) => onLoad(texture, 1) ); // pz = positiveZ = back side
     this.loader.load( `${textureName}/${textureName}_ft.tga`, (texture) => onLoad(texture, 0) ); // nz = negativeZ = front side
     return cubeTexture;
+  }
+
+  enable() {
+    this.webGl.scene.add(this.mesh);
+    return this;
+  }
+
+  disable() {
+    this.webGl.scene.remove(this.mesh);
+    return this;
   }
 }

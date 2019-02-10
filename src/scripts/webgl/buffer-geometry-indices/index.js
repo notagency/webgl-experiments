@@ -66,7 +66,16 @@ export default class {
       wireframe: true
     });
 
-    const cube = new THREE.Mesh(geometry, material);
-    this.webGl.scene.add(cube);
+    this.mesh = new THREE.Mesh(geometry, material);
+  }
+
+  enable() {
+    this.webGl.scene.add(this.mesh);
+    return this;
+  }
+
+  disable() {
+    this.webGl.scene.remove(this.mesh);
+    return this;
   }
 }

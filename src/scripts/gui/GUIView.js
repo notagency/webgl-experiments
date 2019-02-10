@@ -20,9 +20,11 @@ export default class GUIView {
 		this.controlKit = new ControlKit();
 		this.controlKit.addPanel({ width: 300, enable: false })
 
-		.addGroup({label: 'Post Processing', enable: true })
-		// .addSlider(this, 'postOpacity', 'range', { label: 'opacity', onChange: () => { this.onPostProcessingChange(); } })
-		.addCheckbox(this, 'postProcessing', { label: 'post processing', onChange: () => { this.onPostProcessingChange(); } })
+      .addGroup({label: 'Presets', enable: true })
+      .addSelect(this.app.webgl, 'presets', { label: 'preset', selected: this.app.webgl.currentPresetIndex, onChange: (index) => { this.onPresetChange(index); } })
+		  .addGroup({label: 'Post Processing', enable: true })
+		  // .addSlider(this, 'postOpacity', 'range', { label: 'opacity', onChange: () => { this.onPostProcessingChange(); } })
+		  .addCheckbox(this, 'postProcessing', { label: 'post processing', onChange: () => { this.onPostProcessingChange(); } })
 	}
 
 	initStats() {
@@ -49,6 +51,12 @@ export default class GUIView {
 		if (this.controlKit._enabled) this.disable();
 		else this.enable();
 	}
+
+  onPresetChange(index) {
+    if (!this.app.webgl.presets) return;
+    this.app.webgl.currentPresetIndex = index;
+    this.app.webgl.updatePreset();
+  }
 
 	onPostProcessingChange() {
 		if (!this.app.webgl.composer) return;

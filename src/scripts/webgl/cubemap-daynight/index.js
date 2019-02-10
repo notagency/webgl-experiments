@@ -23,8 +23,7 @@ export default class {
       side: THREE.BackSide
     });
 
-    this.object3D = new THREE.Mesh(geometry, material);
-    this.webGl.scene.add(this.object3D);
+    this.mesh = new THREE.Mesh(geometry, material);
   }
 
   loadTexture(textureName) {
@@ -35,16 +34,27 @@ export default class {
     };
     this.loader = new THREE.TGALoader();
     this.loader.setPath('textures/cubemap/');
-    this.loader.load( `${textureName}/${textureName}_rt.tga`, (texture) => onLoad(texture, 4) ); // px = positiveX = right side
-    this.loader.load( `${textureName}/${textureName}_lf.tga`, (texture) => onLoad(texture, 5) ); // nx = negativeX = left side
+    this.loader.load( `${textureName}/${textureName}_ft.tga`, (texture) => onLoad(texture, 0) ); // nz = negativeZ = front side
+    this.loader.load( `${textureName}/${textureName}_bk.tga`, (texture) => onLoad(texture, 1) ); // pz = positiveZ = back side
     this.loader.load( `${textureName}/${textureName}_up.tga`, (texture) => onLoad(texture, 2) ); // py = positiveY = top side
     this.loader.load( `${textureName}/${textureName}_dn.tga`, (texture) => onLoad(texture, 3) ); // ny = negativeY = bottom side
-    this.loader.load( `${textureName}/${textureName}_bk.tga`, (texture) => onLoad(texture, 1) ); // pz = positiveZ = back side
-    this.loader.load( `${textureName}/${textureName}_ft.tga`, (texture) => onLoad(texture, 0) ); // nz = negativeZ = front side
+    this.loader.load( `${textureName}/${textureName}_rt.tga`, (texture) => onLoad(texture, 4) ); // px = positiveX = right side
+    this.loader.load( `${textureName}/${textureName}_lf.tga`, (texture) => onLoad(texture, 5) ); // nx = negativeX = left side
     return cubeTexture;
   }
 
   update(delta) {
-    this.object3D.material.uniforms.uTime.value += delta;
+    this.mesh.material.uniforms.uTime.value += delta;
   }
+
+  enable() {
+    this.webGl.scene.add(this.mesh);
+    return this;
+  }
+
+  disable() {
+    this.webGl.scene.remove(this.mesh);
+    return this;
+  }
+
 }
