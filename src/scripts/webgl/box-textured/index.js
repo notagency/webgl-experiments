@@ -11,7 +11,8 @@ export default class {
         uTexture: { type: 't', value: new THREE.TextureLoader().load( 'textures/crate.gif' ) }
       },
       vertexShader: glslify(require('./shaders/default.vert')),
-      fragmentShader: glslify(require('./shaders/default.frag'))
+      fragmentShader: glslify(require('./shaders/default.frag')),
+      //wireframe: true
     });
 
     this.object3D = new THREE.Mesh(geometry, material);

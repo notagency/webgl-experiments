@@ -10,7 +10,7 @@ export default class GUIView {
 
 		this.range = [0, 1];
 
-		// this.initControlKit();
+		this.initControlKit();
 		this.initStats();
 
 		this.disable();

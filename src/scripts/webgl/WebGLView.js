@@ -8,7 +8,8 @@ import 'three-examples/postprocessing/EffectComposer';
 import 'three-examples/postprocessing/RenderPass';
 import 'three-examples/postprocessing/ShaderPass';
 
-import InteractiveControls from './controls/InteractiveControls';
+import OrbitControls from 'threejs-orbit-controls';
+
 import BufferGeometrySimple from './buffer-geometry-simple/';
 import BufferGeometryIndices from './buffer-geometry-indices/';
 import Box from './box/';
@@ -22,11 +23,11 @@ export default class WebGLView {
 		this.app = app;
 
 		this.initThree();
-		new BufferGeometrySimple(this);
+		// new BufferGeometrySimple(this);
     // new BufferGeometryIndices(this);
     // new Box(this);
-    // new BoxTextured(this);
-    // new Cubemap(this);
+    new BoxTextured(this);
+    new Cubemap(this);
 		// new Particles(this);
 		this.initControls();
 		this.initPostProcessing();
@@ -44,16 +45,7 @@ export default class WebGLView {
 	}
 
 	initControls() {
-		try {
-			this.trackball = new THREE.TrackballControls(this.camera, this.renderer.domElement);
-			this.trackball.rotateSpeed = 2.0;
-			this.trackball.enabled = true;
-		}
-		catch(e) { }
-
-		// this.interactive = new InteractiveControls(this.camera, this.renderer.domElement);
-		// this.interactive.on('interactive-down', this.onInteractiveDown.bind(this));
-		// this.interactive.objects.push(this.object3D);
+    this.controls = new OrbitControls(this.camera);
 	}
 
 	initPostProcessing() {
@@ -76,7 +68,7 @@ export default class WebGLView {
 	update() {
 		const delta = this.clock.getDelta();
 		
-		if (this.trackball) this.trackball.update();
+		if (this.controls) this.controls.update();
 	}
 
 	draw() {
