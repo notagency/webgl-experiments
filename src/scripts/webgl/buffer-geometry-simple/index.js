@@ -16,7 +16,7 @@ export default class {
      */
 
     const size = 50.0;
-    const positions = new Float32Array([
+    const positions = [
 
       // front side bottom
       0.0,  0.0,  0.0,
@@ -77,8 +77,8 @@ export default class {
       size, 0.0,  0.0,
       size, 0.0,  size,
       size, size, size,
-    ]);
-    geometry.addAttribute('position', new THREE.BufferAttribute(positions, 3));
+    ];
+    geometry.addAttribute('position', new THREE.BufferAttribute(new Float32Array(positions), 3));
 
     const material = new THREE.ShaderMaterial({
       uniforms: {},

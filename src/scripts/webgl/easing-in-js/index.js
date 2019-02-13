@@ -1,4 +1,4 @@
-import {random} from '../../utils/math.utils';
+import TweenLite from 'gsap';
 
 const glslify = require('glslify');
 
@@ -8,7 +8,7 @@ export default class {
 
     const geometry = new THREE.InstancedBufferGeometry();
 
-    const size = 2.0;
+    const size = 10.0;
     const positions = [
       0.0,  0.0,  0.0,
       size, 0.0,  0.0,
@@ -24,43 +24,59 @@ export default class {
     ];
     geometry.setIndex(new THREE.BufferAttribute(new Uint16Array(indices), 1));
 
-    const particlesAmount = 1024 * 1024;
-    const offsets = [];
-    const colors = [];
+    const positionsTo = geometry.attributes.position.array.slice();
+    geometry.addAttribute('positionTo', new THREE.BufferAttribute(new Float32Array(positionsTo), 3));
 
-
-    for (let i = 0; i < particlesAmount; i++) {
-      offsets.push(random(-1000, 1000)); // x
-      offsets.push(random(-1000, 1000)); // y
-      offsets.push(random(-1000, 1000)); // z
-
-      colors.push(Math.random()); // r
-      colors.push(Math.random()); // g
-      colors.push(Math.random()); // b
-    }
+    const offsets = [
+      -25.0, 60.0, 0.0, // xyz of the center of each instance
+      0.0,   50.0, 0.0,
+      35.0,  90.0, 0.0,
+    ];
 
     geometry.addAttribute('offset', new THREE.InstancedBufferAttribute(new Float32Array(offsets), 3, false));
-    geometry.addAttribute('color', new THREE.InstancedBufferAttribute(new Float32Array(colors), 3, false));
 
     const material = new THREE.ShaderMaterial({
-      uniforms: {},
+      uniforms: {
+        uAnimation: { type: 'f', value: 0 },
+
+      },
       vertexShader: glslify(require('./shaders/default.vert')),
       fragmentShader: glslify(require('./shaders/default.frag')),
-      // wireframe: true
-      side: THREE.DoubleSide
     });
 
+    this.enabled = false;
+    this.animationStarted = false;
     this.mesh = new THREE.Mesh(geometry, material);
   }
 
   enable() {
     this.webGl.scene.add(this.mesh);
+    this.enabled = true;
     return this;
   }
 
   disable() {
     this.webGl.scene.remove(this.mesh);
+    this.enabled = false;
     return this;
   }
 
+  onInteractiveDown() {
+    if (this.animationStarted) {
+      this.resetAnimation();
+    } else {
+      this.animate();
+    }
+  }
+
+  animate() {
+    this.animationStarted = true;
+    const time = 1;
+    TweenLite.to(this.mesh.material.uniforms.uAnimation, time, {overwrite: true, value: 1, ease: Bounce.easeOut });
+  }
+
+  resetAnimation() {
+    this.animationStarted = false;
+    this.mesh.material.uniforms.uAnimation.value = 0;
+  }
 }

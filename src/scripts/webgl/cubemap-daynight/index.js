@@ -23,6 +23,7 @@ export default class {
       side: THREE.BackSide
     });
 
+    this.enabled = false;
     this.mesh = new THREE.Mesh(geometry, material);
   }
 
@@ -52,11 +53,13 @@ export default class {
 
   enable() {
     this.webGl.scene.add(this.mesh);
+    this.enabled = true;
     return this;
   }
 
   disable() {
     this.webGl.scene.remove(this.mesh);
+    this.enabled = false;
     return this;
   }
 

@@ -17,6 +17,9 @@ import Particles from './particles/';
 import BoxTextured from './box-textured/';
 import Cubemap from './cubemap/';
 import CubemapDayNight from './cubemap-daynight/';
+import DropLogo from './drop-logo/';
+import EasingInJS from './easing-in-js/';
+import EasingInShader from './easing-in-shader/';
 
 export default class WebGLView {
 
@@ -49,6 +52,9 @@ export default class WebGLView {
     this.cubemap = new Cubemap(this);
     this.cubemapDayNight = new CubemapDayNight(this);
     this.particles = new Particles(this);
+    this.dropLogo = new DropLogo(this);
+    this.easingInJS = new EasingInJS(this);
+    this.easingInShader = new EasingInShader(this);
   }
 
   initPresets() {
@@ -56,7 +62,7 @@ export default class WebGLView {
       'Day & night',
       'Billion particles'
     ];
-    this.currentPresetIndex = 0;
+    this.currentPresetIndex = 2;
     this.updatePreset()
   }
 
@@ -84,7 +90,9 @@ export default class WebGLView {
 	update() {
     const delta = this.clock.getDelta();
 
-    if (this.cubemapDayNight) this.cubemapDayNight.update(delta);
+    if (this.cubemapDayNight.enabled) this.cubemapDayNight.update(delta);
+    if (this.easingInShader.enabled) this.easingInShader.update(delta);
+    if (this.dropLogo.enabled) this.dropLogo.update(delta);
 
 		if (this.controls) this.controls.update();
 	}
@@ -109,14 +117,13 @@ export default class WebGLView {
 
 		this.composer.setSize(window.innerWidth, window.innerHeight);
 		this.sobelPass.uniforms.resolution.value.set(window.innerWidth, window.innerHeight);
-
-		if (this.trackball) this.trackball.handleResize();
-		if (this.interactive) this.interactive.resize();
 	}
 
 	onInteractiveDown(e) {
-		this.object3D.material.wireframe = !e.object;
-	}
+	  if (this.dropLogo.enabled) this.dropLogo.onInteractiveDown(e);
+    if (this.easingInJS.enabled)   this.easingInJS.onInteractiveDown(e);
+    if (this.easingInShader.enabled)   this.easingInShader.onInteractiveDown(e);
+  }
 
   updatePreset() {
     this.box.disable();
@@ -135,7 +142,11 @@ export default class WebGLView {
       case 1: // particles
         this.particles.enable();
         break;
-
+      case 2: // dev
+        // this.easingInJS.enable();
+        // this.easingInShader.enable();
+        this.dropLogo.enable();
+        break;
     }
   }
 }

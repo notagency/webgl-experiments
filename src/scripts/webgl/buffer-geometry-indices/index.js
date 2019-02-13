@@ -7,7 +7,7 @@ export default class {
     const geometry = new THREE.BufferGeometry();
 
     const size = 50.0;
-    const positions = new Float32Array([
+    const positions = [
       0.0,  0.0,  0.0,
       size, 0.0,  0.0,
       0.0,  size, 0.0,
@@ -16,8 +16,8 @@ export default class {
       size, 0.0,  size,
       0.0,  size, size,
       size, size, size
-    ]);
-    geometry.addAttribute('position', new THREE.BufferAttribute(positions, 3));
+    ];
+    geometry.addAttribute('position', new THREE.BufferAttribute(new Float32Array(positions), 3));
 
 
     /**
@@ -31,7 +31,7 @@ export default class {
      * 0-----1
      */
 
-    const indices = new Uint16Array([
+    const indices = [
       // front side
       0, 1, 3,
       0, 3, 2,
@@ -55,8 +55,8 @@ export default class {
       // right side
       1, 5, 7,
       1, 7, 3,
-    ]);
-    geometry.setIndex(new THREE.BufferAttribute(indices, 1));
+    ];
+    geometry.setIndex(new THREE.BufferAttribute(new Uint16Array(indices), 1));
 
     const material = new THREE.ShaderMaterial({
       uniforms: {},
