@@ -20,6 +20,9 @@ import CubemapDayNight from './cubemap-daynight/';
 import DropLogo from './drop-logo/';
 import EasingInJS from './easing-in-js/';
 import EasingInShader from './easing-in-shader/';
+import WireFrameVsTexture from './wireframe-vs-texture';
+import Airplane from './airplane';
+import House from './house';
 
 export default class WebGLView {
 
@@ -55,12 +58,16 @@ export default class WebGLView {
     this.dropLogo = new DropLogo(this);
     this.easingInJS = new EasingInJS(this);
     this.easingInShader = new EasingInShader(this);
+    this.wireframeVsTexture = new WireFrameVsTexture(this);
+    this.airplane = new Airplane(this);
+    this.house = new House(this);
   }
 
   initPresets() {
     this.presets = [
       'Day & night',
-      'Billion particles'
+      'Billion particles',
+      'House'
     ];
     this.currentPresetIndex = 2;
     this.updatePreset()
@@ -133,6 +140,7 @@ export default class WebGLView {
     this.cubemap.disable();
     this.cubemapDayNight.disable();
     this.particles.disable();
+    this.house.disable();
 
     switch (this.currentPresetIndex) {
       case 0: // day & night
@@ -142,10 +150,15 @@ export default class WebGLView {
       case 1: // particles
         this.particles.enable();
         break;
-      case 2: // dev
+      case 2: // house
+        this.house.enable();
+        break;
+      case 3: // dev
         // this.easingInJS.enable();
         // this.easingInShader.enable();
-        this.dropLogo.enable();
+        // this.dropLogo.enable();
+        // this.wireframeVsTexture.enable();
+        this.airplane.enable();
         break;
     }
   }

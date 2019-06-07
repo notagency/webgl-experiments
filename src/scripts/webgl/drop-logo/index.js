@@ -5,7 +5,6 @@ const glslify = require('glslify');
 export default class {
   constructor(webGl) {
     this.webGl = webGl;
-    this.webGl.camera.position.z = 900;
 
     this.particlesAmount = 0;
 
@@ -57,6 +56,7 @@ export default class {
   enable() {
     this.webGl.scene.add(this.mesh);
     this.enabled = true;
+    this.webGl.camera.position.z = 900;
     return this;
   }
 

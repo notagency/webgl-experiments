@@ -7,6 +7,8 @@ export default class GUIView {
 		this.app = app;
 
 		this.postProcessing = false;
+		this.wireframe = false;
+		this.doubleSide = false;
 
 		this.range = [0, 1];
 
@@ -18,13 +20,20 @@ export default class GUIView {
 
 	initControlKit() {
 		this.controlKit = new ControlKit();
-		this.controlKit.addPanel({ width: 300, enable: false })
-
+		this.controlKit
+      .addPanel({ width: 300, enable: false })
       .addGroup({label: 'Presets', enable: true })
-      .addSelect(this.app.webgl, 'presets', { label: 'preset', selected: this.app.webgl.currentPresetIndex, onChange: (index) => { this.onPresetChange(index); } })
+      .addSelect(this.app.webgl, 'presets', {
+        label: 'preset',
+        selected: this.app.webgl.currentPresetIndex,
+        onChange: (index) => this.onPresetChange(index)
+      })
+      .addGroup({label: 'Texture', enable: true })
+      .addCheckbox(this, 'wireframe', { label: 'wireframe', onChange: () => this.onWireframeChange() })
+      .addCheckbox(this, 'doubleSide', { label: 'double side', onChange: () => this.onDoubleSideChange() })
 		  .addGroup({label: 'Post Processing', enable: true })
 		  // .addSlider(this, 'postOpacity', 'range', { label: 'opacity', onChange: () => { this.onPostProcessingChange(); } })
-		  .addCheckbox(this, 'postProcessing', { label: 'post processing', onChange: () => { this.onPostProcessingChange(); } })
+		  .addCheckbox(this, 'postProcessing', { label: 'post processing', onChange: () => this.onPostProcessingChange() })
 	}
 
 	initStats() {
@@ -56,10 +65,31 @@ export default class GUIView {
     if (!this.app.webgl.presets) return;
     this.app.webgl.currentPresetIndex = index;
     this.app.webgl.updatePreset();
+    this.onWireframeChange();
+    this.onDoubleSideChange();
   }
 
 	onPostProcessingChange() {
 		if (!this.app.webgl.composer) return;
 		this.app.webgl.composer.enabled = this.postProcessing;
 	}
+
+  onWireframeChange() {
+    this.app.webgl.scene.traverse((child) => {
+      if (child instanceof THREE.Mesh) {
+        child.material.wireframe = this.wireframe;
+        child.material.needsUpdate = true;
+      }
+    })
+  }
+
+  onDoubleSideChange() {
+    this.app.webgl.scene.traverse((child) => {
+      if (child instanceof THREE.Mesh) {
+        child.material.side = this.doubleSide ? THREE.DoubleSide : THREE.FrontSide;
+        child.material.needsUpdate = true;
+      }
+    })
+  }
+
 }
