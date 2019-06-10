@@ -1,3 +1,4 @@
+import { MeshLine, MeshLineMaterial } from 'three.meshline';
 import 'three-examples/loaders/LoaderSupport';
 import 'three-examples/loaders/OBJLoader2';
 import 'three-examples/loaders/MTLLoader';
@@ -9,32 +10,36 @@ export default class {
 
   enable() {
     const objLoader = new THREE.OBJLoader2();
+    const color = 0x3a7a3c;
+    const wireframeMaterial = new THREE.LineBasicMaterial({ color });
     objLoader.load( 'models/house.obj', (event) => {
       this.mesh = event.detail.loaderRootNode;
-      this.webGl.scene.add(this.mesh);
-      this.mesh.position.set(0, 0, -350);
+      this.mesh.traverse((child) => {
+        if (child instanceof THREE.Mesh) {
+          this.webGl.scene.add(child);
+
+          child.material.emissive.set('white');
+          child.geometry.center();
+          const wireframeGeometry = new THREE.EdgesGeometry(child.geometry);
+          const wireframe = new THREE.LineSegments( wireframeGeometry, wireframeMaterial );
+          child.add(wireframe);
+        }
+      });
+
+
+      this.webGl.camera.position.x = 900;
+      this.webGl.camera.position.y = 900;
       this.webGl.camera.position.z = 900;
     });
 
-    this.ambientLight = new THREE.AmbientLight( 0xffffff );
-    this.webGl.scene.add(this.ambientLight);
-
-    this.directionLight = new THREE.DirectionalLight( 0xffffff );
-    this.directionLight.position.set( 100, 100, 100 ).normalize();
-    this.webGl.scene.add(this.directionLight);
-
-    this.directionLight2 = new THREE.DirectionalLight( 0xffffff );
-    this.directionLight2.position.set( -100, -100, -100 ).normalize();
-    this.webGl.scene.add(this.directionLight2);
 
     return this;
   }
 
   disable() {
     this.webGl.scene.remove(this.mesh);
-    this.webGl.scene.remove(this.ambientLight);
-    this.webGl.scene.remove(this.directionLight);
-    this.webGl.scene.remove(this.directionLight2);
+    this.webGl.camera.position.x = 0;
+    this.webGl.camera.position.y = 0;
     this.webGl.camera.position.z = 200;
     return this;
   }

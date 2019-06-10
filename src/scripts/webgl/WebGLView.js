@@ -23,6 +23,7 @@ import EasingInShader from './easing-in-shader/';
 import WireFrameVsTexture from './wireframe-vs-texture';
 import Airplane from './airplane';
 import House from './house';
+import MeshLineExample from './mesh-line';
 
 export default class WebGLView {
 
@@ -61,15 +62,17 @@ export default class WebGLView {
     this.wireframeVsTexture = new WireFrameVsTexture(this);
     this.airplane = new Airplane(this);
     this.house = new House(this);
+    this.meshLine = new MeshLineExample(this);
   }
 
   initPresets() {
     this.presets = [
       'Day & night',
       'Billion particles',
+      'Mesh line',
       'House'
     ];
-    this.currentPresetIndex = 2;
+    this.currentPresetIndex = 3;
     this.updatePreset()
   }
 
@@ -141,6 +144,7 @@ export default class WebGLView {
     this.cubemapDayNight.disable();
     this.particles.disable();
     this.house.disable();
+    this.meshLine.disable();
 
     switch (this.currentPresetIndex) {
       case 0: // day & night
@@ -150,10 +154,13 @@ export default class WebGLView {
       case 1: // particles
         this.particles.enable();
         break;
-      case 2: // house
+      case 2: // mesh line
+        this.meshLine.enable();
+        break;
+      case 3: // house
         this.house.enable();
         break;
-      case 3: // dev
+      case 4: // dev
         // this.easingInJS.enable();
         // this.easingInShader.enable();
         // this.dropLogo.enable();

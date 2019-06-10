@@ -27,6 +27,7 @@
     "gsap": "^2.0.2",
     "stats.js": "^0.17.0",
     "three": "^0.98.0",
+    "three.meshline": "^1.2.0",
     "threejs-orbit-controls": "^1.0.3"
   },
   "devDependencies": {

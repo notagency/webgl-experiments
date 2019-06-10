@@ -10,8 +10,6 @@ export default class GUIView {
 		this.wireframe = false;
 		this.doubleSide = false;
 
-		this.range = [0, 1];
-
 		this.initControlKit();
 		this.initStats();
 
