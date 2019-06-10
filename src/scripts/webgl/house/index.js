@@ -13,16 +13,17 @@ export default class {
     const color = 0x3a7a3c;
     const wireframeMaterial = new THREE.LineBasicMaterial({ color });
     objLoader.load( 'models/house.obj', (event) => {
-      this.mesh = event.detail.loaderRootNode;
-      this.mesh.traverse((child) => {
+      const object = event.detail.loaderRootNode;
+      object.traverse((child) => {
         if (child instanceof THREE.Mesh) {
-          this.webGl.scene.add(child);
+          this.mesh = child;
+          this.webGl.scene.add(this.mesh);
 
           child.material.emissive.set('white');
           child.geometry.center();
           const wireframeGeometry = new THREE.EdgesGeometry(child.geometry);
-          const wireframe = new THREE.LineSegments( wireframeGeometry, wireframeMaterial );
-          child.add(wireframe);
+          this.wireFrameMesh = new THREE.LineSegments( wireframeGeometry, wireframeMaterial);
+          child.add(this.wireFrameMesh);
         }
       });
 
@@ -38,6 +39,7 @@ export default class {
 
   disable() {
     this.webGl.scene.remove(this.mesh);
+    this.webGl.scene.remove(this.wireFrameMesh);
     this.webGl.camera.position.x = 0;
     this.webGl.camera.position.y = 0;
     this.webGl.camera.position.z = 200;
