@@ -10,8 +10,7 @@ export default class {
 
   enable() {
     const objLoader = new THREE.OBJLoader2();
-    const color = 0x3a7a3c;
-    const wireframeMaterial = new THREE.LineBasicMaterial({ color });
+    const wireframeMaterial = new THREE.LineBasicMaterial({ color: 0x3a7a3c });
     objLoader.load( 'models/h1_3.obj', (event) => {
       const object = event.detail.loaderRootNode;
       object.traverse((child) => {
@@ -19,11 +18,16 @@ export default class {
           this.mesh = child;
           this.webGl.scene.add(this.mesh);
 
-          child.material.emissive.set('white');
-          child.geometry.center();
-          const wireframeGeometry = new THREE.EdgesGeometry(child.geometry);
+          this.mesh.material.emissive.set('white');
+
+          this.mesh.material.polygonOffset = true;
+          this.mesh.material.polygonOffsetFactor = 1;
+          this.mesh.material.polygonOffsetUnits = 1;
+
+          this.mesh.geometry.center();
+          const wireframeGeometry = new THREE.EdgesGeometry(this.mesh.geometry);
           this.wireFrameMesh = new THREE.LineSegments( wireframeGeometry, wireframeMaterial);
-          child.add(this.wireFrameMesh);
+          this.mesh.add(this.wireFrameMesh);
         }
       });
 
