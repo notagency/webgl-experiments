@@ -44,6 +44,7 @@ export default class WebGLView {
 		this.camera.position.z = 300;
 
 		this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    this.renderer.setPixelRatio(2);
 
 		this.clock = new THREE.Clock();
 	}
