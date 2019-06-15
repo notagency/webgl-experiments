@@ -40,14 +40,18 @@ export default class WebGLView {
 	initThree() {
 		this.scene = new THREE.Scene();
 
-		this.camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 10000);
-		this.camera.position.z = 300;
+		this.initCamera();
 
 		this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     this.renderer.setPixelRatio(2);
 
 		this.clock = new THREE.Clock();
 	}
+
+	initCamera() {
+    this.camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 10000);
+    this.camera.position.z = 300;
+  }
 
   initObjects() {
     this.box = new Box(this);

@@ -1,4 +1,3 @@
-import { MeshLine, MeshLineMaterial } from 'three.meshline';
 import 'three-examples/loaders/LoaderSupport';
 import 'three-examples/loaders/OBJLoader2';
 import 'three-examples/loaders/MTLLoader';
@@ -9,6 +8,8 @@ export default class {
   }
 
   enable() {
+    this.initCamera();
+
     const objLoader = new THREE.OBJLoader2();
     const wireframeMaterial = new THREE.LineBasicMaterial({ color: 0x3a7a3c });
     objLoader.load( 'models/h1_4.obj', (event) => {
@@ -31,22 +32,26 @@ export default class {
         }
       });
 
-
-      this.webGl.camera.position.x = 900;
-      this.webGl.camera.position.y = 900;
-      this.webGl.camera.position.z = 900;
     });
 
-
     return this;
+  }
+
+  initCamera() {
+    const aspect = window.innerWidth / window.innerHeight;
+    const d = 600;
+    this.webGl.camera = new THREE.OrthographicCamera( - d * aspect, d * aspect, d, - d, 1, 10000 );
+
+    this.webGl.camera.position.set(d, d, d);
+    this.webGl.camera.lookAt( this.webGl.scene.position ); // or the origin
+    this.webGl.initControls();
   }
 
   disable() {
     this.webGl.scene.remove(this.mesh);
     this.webGl.scene.remove(this.wireFrameMesh);
-    this.webGl.camera.position.x = 0;
-    this.webGl.camera.position.y = 0;
-    this.webGl.camera.position.z = 200;
+    this.webGl.initCamera();
+    this.webGl.initControls();
     return this;
   }
 }
