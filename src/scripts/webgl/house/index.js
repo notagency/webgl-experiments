@@ -11,7 +11,7 @@ export default class {
   enable() {
     const objLoader = new THREE.OBJLoader2();
     const wireframeMaterial = new THREE.LineBasicMaterial({ color: 0x3a7a3c });
-    objLoader.load( 'models/h1_3.obj', (event) => {
+    objLoader.load( 'models/h1_4.obj', (event) => {
       const object = event.detail.loaderRootNode;
       object.traverse((child) => {
         if (child instanceof THREE.Mesh) {
