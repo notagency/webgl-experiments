@@ -108,6 +108,7 @@ export default class WebGLView {
     if (this.cubemapDayNight.enabled) this.cubemapDayNight.update(delta);
     if (this.easingInShader.enabled) this.easingInShader.update(delta);
     if (this.dropLogo.enabled) this.dropLogo.update(delta);
+    if (this.house.enabled) this.house.update(delta);
 
 		if (this.controls) this.controls.update();
 	}
@@ -150,6 +151,7 @@ export default class WebGLView {
     this.particles.disable();
     this.house.disable();
     this.meshLine.disable();
+    this.dropLogo.disable();
 
     switch (this.currentPresetIndex) {
       case 0: // day & night
