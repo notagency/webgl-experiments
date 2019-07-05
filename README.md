@@ -11,6 +11,5 @@ ___
 
 ## Libraries
 - [Three.js](https://github.com/mrdoob/three.js/)
-- [AsyncPreloader](https://github.com/dmnsgn/async-preloader) - assets preloader
 - [ControlKit](https://github.com/brunoimbrizi/controlkit.js) - GUI
 - [stats.js](https://github.com/mrdoob/stats.js/) - performance monitor

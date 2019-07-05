@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1, user-scalable=no" />
+	<title>NotAgency</title>
+	<style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      background-color: #222;
+      margin: 0;
+      overflow: hidden;
+      display: flex;
+    }
+    #container {
+      margin-left: 200px;
+      width: calc(100% - 200px);
+      height: 100vh;
+    }
+    #menu {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      background: #fff;
+      padding: 10px;
+      opacity: 0.8;
+      min-width: 200px;
+    }
+    #menu h2 {
+      text-transform: capitalize;
+    }
+    #menu button {
+      display: block;
+      margin-bottom: 10px;
+      background: none;
+      border: none;
+      font-size: 15px;
+      cursor: pointer;
+      opacity: 0.75;
+      transition: opacity .3s ease;
+    }
+    #menu button:hover {
+      opacity: 1;
+    }
+    #menu .selected {
+      opacity: 1;
+    }
+    #stats {
+      position: fixed;
+      bottom: 0;
+      right: 0;
+    }
+    #stats > div {
+      position: relative !important;
+    }
+  </style>
+</head>
+<body>
+  <div id="menu">
+    <div id="examples"></div>
+    <div id="sketches"></div>
+  </div>
+	<div id="container"></div>
+  <div id="gui"></div>
+  <div id="stats"></div>
+</body>
+</html>
