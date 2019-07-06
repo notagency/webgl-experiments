@@ -36,7 +36,6 @@ export default class {
     });
 
 
-    this.enabled = false;
     this.animationStarted = false;
     this.mesh = new THREE.Mesh(geometry, material);
     this.loadTexture(() => {

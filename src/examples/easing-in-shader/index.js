@@ -42,7 +42,6 @@ export default class {
       fragmentShader: glslify(require('./shaders/default.frag')),
     });
 
-    this.enabled = false;
     this.animationStarted = false;
     this.mesh = new THREE.Mesh(geometry, material);
     this.initAnimationDelay();

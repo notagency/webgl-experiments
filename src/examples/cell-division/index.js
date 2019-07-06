@@ -3,36 +3,37 @@ const glslify = require('glslify');
 
 export default class {
   constructor(app) {
-    this.enabled = false;
     this.app = app;
 
-    const sphereGeometry = new THREE.SphereBufferGeometry(50, 50, 50);
+    const [width, height] = this.app.getContainerSize();
+    const planeGeometry = new THREE.PlaneGeometry(width, height);
 
     const material = new THREE.ShaderMaterial( {
       uniforms: {
-        uTime: { type: 'f', value: 0 }
+        uAspect: { type: 'f', value: width/height },
+        uTime: { type: 'f', value: 0 },
+        uStrength: { type: 'f', value: 1 },
+        uFade: { type: 'f', value: 1 },
+        uMode: { type: 'f', value: 1},
+        uClickTime: {type: 'f', value: 0},
+        uRotation: new THREE.Uniform(new THREE.Vector3(1, 1, 1)),
       },
       vertexShader: glslify(require('./shaders/default.vert')),
       fragmentShader: glslify(require('./shaders/default.frag')),
-      wireframe: true
-    } );
+      wireframe: false
+    });
 
-    this.mesh = new THREE.Mesh(sphereGeometry, material);
+    this.mesh = new THREE.Mesh(planeGeometry, material);
+    this.app.camera.position.z = 800;
     this.app.scene.add(this.mesh);
-
-    this.setupLights();
   }
 
-  setupLights() {
-    this.lights = [];
-    this.lights[0] = new THREE.PointLight( 0xffffff, 1, 0 );
-    this.lights[1] = new THREE.AmbientLight( 0xffffff, 0.1 );
-    this.lights[0].position.set( -1000, 1500, 1000 );
-    this.lights[1].position.set( 1000, 3000, 1000 );
-    this.lights.forEach(light => this.app.scene.add(light));
+  onClick() {
+    this.mesh.material.uniforms.uClickTime.value = this.mesh.material.uniforms.uTime.value;
+    this.mesh.material.uniforms.uMode.value = !this.mesh.material.uniforms.uMode.value;
   }
 
   update(delta) {
-    // this.mesh.material.uniforms.uTime.value += delta;
+    this.mesh.material.uniforms.uTime.value += delta;
   }
 }

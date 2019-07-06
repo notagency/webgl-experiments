@@ -5,7 +5,6 @@ const glslify = require('glslify');
 
 export default class {
   constructor(app) {
-    this.enabled = false;
     this.app = app;
 
     const sphereGeometry = new THREE.SphereBufferGeometry(50, 50, 50);

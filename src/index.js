@@ -16,6 +16,11 @@ import House from './examples/house';
 import MeshLine from './examples/mesh-line';
 import SphereToCubeMorph from './examples/sphere-to-cube-morph';
 import CellDivision from './examples/cell-division';
+import Clouds from './examples/clouds';
+import Plane from './examples/plane';
+import SignedDistanceSphere from './examples/sd-sphere';
+import Raymarch from './examples/raymarch';
+
 
 new App({
   examples: {
@@ -25,6 +30,7 @@ new App({
   },
   sketches: {
     MeshLine,
+    Clouds,
     // Airplane,
     // BufferGeometrySimple,
     // BufferGeometryIndices,
@@ -37,5 +43,8 @@ new App({
     EasingInShader,
     WireFrameVsTexture,
     SphereToCubeMorph,
+    // Plane,
+    // SignedDistanceSphere,
+    Raymarch,
   },
 });
