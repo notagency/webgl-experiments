@@ -1,4 +1,5 @@
 uniform float uAspect;
+uniform sampler2D uDiffuse;
 
 varying vec2 vUv;
 
@@ -26,7 +27,7 @@ float scene(vec3 p) {
     vec3 sphere2pos = vec3(0.0, 0.0, 3.0);
     float sphere2 = sdSphere(p + sphere2pos, 0.7);
 
-    return opSmoothUnion(sphere1, sphere2, 2.0);
+    return opUnion(sphere1, sphere2);
 }
 
 // the actual raymarching from:
@@ -81,7 +82,7 @@ vec3 getRay(vec3 origin, vec3 target, vec2 uv, float lensLength) {
 
 void main() {
 
-    vec3 color = vec3(0.1);
+    vec3 color = texture2D(uDiffuse, vUv).xyz;
     vec2 uv = vUv;
     uv = uv * 2.0 - 1.0; // точка (0,0) теперь в центре вьюпорта, и (-1,-1) < uv < (1,1)
     uv *= vec2(uAspect, 1.0);
