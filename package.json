@@ -23,8 +23,7 @@
     "gsap": "^2.0.2",
     "stats.js": "^0.17.0",
     "three": "^0.106.0",
-    "three.meshline": "^1.2.0",
-    "threejs-orbit-controls": "^1.0.3"
+    "three.meshline": "^1.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.5.0",

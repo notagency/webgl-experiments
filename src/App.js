@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import Stats from 'stats.js';
-import OrbitControls from "threejs-orbit-controls";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import Menu from './Menu';
 
 export default class App {
