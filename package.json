@@ -20,7 +20,7 @@
   "dependencies": {
     "dat.gui": "^0.7.6",
     "glsl-easings": "^1.0.0",
-    "gsap": "^2.0.2",
+    "gsap": "^3.6.0",
     "stats.js": "^0.17.0",
     "three": "^0.106.0",
     "three.meshline": "^1.2.0"
